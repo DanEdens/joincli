@@ -21,10 +21,12 @@ def arguments():
     return vars(ap.parse_args())
 
 
-def push_to_device(arguments, devices):
-    # print(arguments)
-    arguments["apikey"] = devices["apikey"]
-    arguments["deviceId"] = devices[devices["pref"]]["deviceId"]
+def push_to_device(_devices):
+    """
+        Send a
+    """
+    arguments["apikey"] = _devices["apikey"]
+    arguments["deviceId"] = _devices[_devices["pref"]]["deviceId"]
 
     encoded = []
     for key, value in arguments.items():
