@@ -3,6 +3,8 @@ import json
 import os
 import urllib.parse
 import urllib.request
+from json import JSONDecodeError
+
 from . import logger
 
 def arguments():
@@ -43,15 +45,18 @@ def push_to_device(_devices):
 
 
 def devices():
-    try:  # loads device json into a dictionary
+    """ loads device json into a dictionary
+    :return:
+    """
+    try:  #
         with open("devices.json", "r") as device:
-            deviceData = json.loads(device.read())
-    except:
+            return json.loads(device.read())
+    except JSONDecodeError:
         # TODO move into main and check for devices
-        os.system("python3 joincliSetup.py")
-        with open("devices.json", "r") as device:
-            deviceData = json.loads(device.read())
-    return deviceData
+        _setupfile = os.system("python3 joincliSetup.py")
+        with open(_setupfile, "r") as device:
+            return json.loads(device.read())
+
 
 
 push_to_device(arguments(), devices())
