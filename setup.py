@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='joincli',
-    version='0.01',
+    version='0.02',
     packages=find_packages("."),
     url='https://github.com/timoteohss/joincli',
     license='MIT',
