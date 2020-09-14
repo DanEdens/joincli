@@ -1,17 +1,15 @@
 import http.server
-import socketserver
 import json
-import sys
 import logging
 import os
-from joincliHandler import handleMessage
+import socketserver
+import sys
+
 import joincliUtils as ju
+from joincliHandler import handleMessage
 from . import logger
 
-devices = ju.open_local_devices()
-
 Handler = http.server.SimpleHTTPRequestHandler
-PORT = os.getenv('JOIN_PORT', 1820)
 
 
 class webServer(Handler):
@@ -44,7 +42,13 @@ class webServer(Handler):
         self.end_headers()
 
 
-def run(server_class=Handler, handler_class=webServer, port=PORT):
+def main(handler_class=webServer,
+         port=os.getenv('JOIN_PORT', 1820)):
+    """
+
+    :param handler_class:
+    :param port:
+    """
     try:
         logging.info("Listening on port %d for clients..." % port)
         server_address = ('', port)
@@ -62,8 +66,10 @@ def run(server_class=Handler, handler_class=webServer, port=PORT):
 
 if __name__ == "__main__":
 
-    if devices is not None:
-        run()
+    devices: json = ju.json.loads(ju.open_local_devices().read())
+
+    if os.path.isfile(devices):
+        main()
     else:
         print("Devices not found!")
         print("Setup your eviroment first")
